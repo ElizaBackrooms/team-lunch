@@ -78,6 +78,11 @@ See `.env.example`:
 - `npm run e2e` — API smoke  
 - `npm run worker:dd` — DoorDash worker  
 
+## Status & deploy
+
+- [WORKABLE.md](./WORKABLE.md) — what works vs what’s next  
+- [DEPLOY.md](./DEPLOY.md) — local + Vercel  
+
 ## License
 
 MIT — see [LICENSE](./LICENSE).
