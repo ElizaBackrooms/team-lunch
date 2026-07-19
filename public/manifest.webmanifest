@@ -1,0 +1,17 @@
+{
+  "name": "Team Lunch",
+  "short_name": "Lunch",
+  "description": "Workplace lunch voting and consolidated ordering",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#e4ebe0",
+  "theme_color": "#3f6b38",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

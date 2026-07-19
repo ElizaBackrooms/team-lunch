@@ -1,0 +1,37 @@
+.nav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 40;
+  display: flex;
+  justify-content: space-around;
+  gap: 0.25rem;
+  padding: 0.45rem 0.35rem max(0.45rem, env(safe-area-inset-bottom));
+  background: color-mix(in srgb, var(--bg-elevated) 92%, white);
+  border-top: 1px solid var(--stroke);
+  backdrop-filter: blur(8px);
+}
+
+.link,
+.active {
+  flex: 1;
+  text-align: center;
+  padding: 0.55rem 0.25rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+}
+
+.active {
+  color: var(--accent);
+  background: var(--ok-soft);
+}
+
+@media (min-width: 860px) {
+  .nav {
+    display: none;
+  }
+}
