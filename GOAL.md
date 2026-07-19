@@ -13,18 +13,22 @@ Goal: ship a usable **web + mobile PWA** MVP with mock DoorDash, real location/m
 - [x] One-command e2e smoke script (API flow) exits 0
 - [x] `npm run build` succeeds
 - [x] README: setup, env, location model, dd-cli waitlist notes
+- [x] Session load UI: no empty flash before `/api/session` (hook `loading`)
+- [x] Vercel demo: memory-only store when `VERCEL` set; see `DEPLOY.md` / `WORKABLE.md`
 
-**Status: COMPLETE** (2026-07-18)
+**Status: COMPLETE** (2026-07-18) — see also `WORKABLE.md` for open-source readiness notes.
 
 ## Out of scope until waitlist / secrets
 
 - Live DoorDash checkout on Windows
 - Production multi-tenant Supabase RLS hardening beyond schema
 - Native App Store / Play wrappers (Capacitor later)
+- Durable shared session on serverless (use Supabase later)
 
 ## How to re-verify
 
 ```bash
 npm run build
+npx tsc --noEmit
 E2E_BASE=http://localhost:3001 npm run e2e
 ```
