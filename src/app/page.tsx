@@ -7,7 +7,7 @@ import { formatAddress } from "@/lib/location";
 import styles from "./page.module.css";
 
 export default function TodayBoardPage() {
-  const { data, health, error, busy, search } = useLunchSession();
+  const { data, health, error, busy, loading, search } = useLunchSession();
   const ranked = data?.candidates ?? [];
   const leader = ranked[0];
   const maxVotes = Math.max(...ranked.map((c) => c.voteCount ?? 0), 1);
@@ -19,6 +19,18 @@ export default function TodayBoardPage() {
         hasPaid: data.participant?.status === "paid",
       })
     : null;
+
+  if (loading) {
+    return (
+      <main className={styles.shell}>
+        <header className={styles.brand}>
+          <p className={styles.org}>Acme Labs</p>
+          <h1 className={styles.title}>Team Lunch</h1>
+          <p className={styles.sub}>Loading session…</p>
+        </header>
+      </main>
+    );
+  }
 
   return (
     <main className={styles.shell}>

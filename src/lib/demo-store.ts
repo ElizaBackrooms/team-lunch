@@ -34,6 +34,9 @@ const DEMO_ORG = "00000000-0000-4000-8000-0000000000aa";
 const DEMO_HOST = "00000000-0000-4000-8000-0000000000bb";
 const DEMO_USER = "00000000-0000-4000-8000-0000000000cc";
 
+/** Serverless (Vercel) has a read-only FS — keep demo state in memory only. */
+const IS_VERCEL = Boolean(process.env.VERCEL);
+
 const DATA_DIR = path.join(process.cwd(), ".data");
 const DATA_FILE = path.join(DATA_DIR, "session.json");
 
@@ -68,6 +71,13 @@ const g = globalThis as unknown as GlobalDemo;
 
 function ensureLoaded() {
   if (g.__teamLunchDemoLoaded && g.__teamLunchDemo) return;
+
+  if (IS_VERCEL) {
+    g.__teamLunchDemo = g.__teamLunchDemo ?? fresh();
+    g.__teamLunchDemoLoaded = true;
+    return;
+  }
+
   try {
     if (fs.existsSync(DATA_FILE)) {
       const raw = fs.readFileSync(DATA_FILE, "utf8");
@@ -83,6 +93,10 @@ function ensureLoaded() {
 
 export function persistDemo() {
   ensureLoaded();
+  if (IS_VERCEL) {
+    // Memory-only on Vercel — lasts for the lifetime of the instance.
+    return;
+  }
   try {
     fs.mkdirSync(DATA_DIR, { recursive: true });
     fs.writeFileSync(DATA_FILE, JSON.stringify(g.__teamLunchDemo, null, 2), "utf8");

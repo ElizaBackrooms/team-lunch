@@ -54,6 +54,7 @@ export default function JoinPage() {
     menu,
     error,
     busy,
+    loading,
     join,
     loadMenu,
     addItem,
@@ -130,6 +131,21 @@ export default function JoinPage() {
     });
   }
 
+  if (loading) {
+    return (
+      <main className={styles.shell}>
+        <Link href="/" className="backLink">
+          ← Today
+        </Link>
+        <header className={styles.brand}>
+          <p className={styles.org}>Opt-in</p>
+          <h1 className={styles.title}>Join lunch</h1>
+          <p className={styles.sub}>Loading session…</p>
+        </header>
+      </main>
+    );
+  }
+
   return (
     <main className={styles.shell}>
       <Link href="/" className="backLink">
@@ -155,7 +171,7 @@ export default function JoinPage() {
       {!locked ? (
         <p className={styles.deal}>
           Waiting for host to lock a winner (status:{" "}
-          {data?.session.status ?? "…"}).
+          {data?.session.status ?? "draft"}).
         </p>
       ) : !data?.participant ? (
         <section className={styles.hero}>

@@ -16,6 +16,7 @@ export default function AdminPage() {
     health,
     error,
     busy,
+    loading,
     reset,
     search,
     searchNearMe,
@@ -25,6 +26,21 @@ export default function AdminPage() {
     checkout,
     track,
   } = useLunchSession();
+
+  if (loading) {
+    return (
+      <main className={styles.shell}>
+        <Link href="/" className="backLink">
+          ← Today
+        </Link>
+        <header className={styles.brand}>
+          <p className={styles.org}>Host</p>
+          <h1 className={styles.title}>Host tools</h1>
+          <p className={styles.sub}>Loading session…</p>
+        </header>
+      </main>
+    );
+  }
 
   return (
     <main className={styles.shell}>

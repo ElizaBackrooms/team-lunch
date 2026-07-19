@@ -57,6 +57,8 @@ export function useLunchSession() {
   const [menu, setMenu] = useState<DdMenu | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  /** True until the first `/api/session` request settles (success or error). */
+  const [loading, setLoading] = useState(true);
 
   const refresh = useCallback(async () => {
     const snap = await json<SessionSnapshot>("/api/session");
@@ -65,18 +67,26 @@ export function useLunchSession() {
   }, []);
 
   useEffect(() => {
+    let cancelled = false;
     void (async () => {
       try {
         const [snap, h] = await Promise.all([
           json<SessionSnapshot>("/api/session"),
           json<DdCliHealth>("/api/dd/health"),
         ]);
+        if (cancelled) return;
         setData(snap);
         setHealth(h);
       } catch (e) {
+        if (cancelled) return;
         setError(e instanceof Error ? e.message : "load_failed");
+      } finally {
+        if (!cancelled) setLoading(false);
       }
     })();
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const run = useCallback(async <T,>(fn: () => Promise<T>) => {
@@ -98,6 +108,7 @@ export function useLunchSession() {
     menu,
     error,
     busy,
+    loading,
     refresh,
     reset: () =>
       run(async () => {

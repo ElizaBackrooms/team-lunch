@@ -5,9 +5,24 @@ import { useLunchSession } from "@/lib/hooks/use-lunch-session";
 import styles from "../page.module.css";
 
 export default function VotePage() {
-  const { data, error, busy, vote, search } = useLunchSession();
+  const { data, error, busy, loading, vote, search } = useLunchSession();
   const candidates = data?.candidates ?? [];
   const maxVotes = Math.max(...candidates.map((c) => c.voteCount ?? 0), 1);
+
+  if (loading) {
+    return (
+      <main className={styles.shell}>
+        <Link href="/" className="backLink">
+          ← Today
+        </Link>
+        <header className={styles.brand}>
+          <p className={styles.org}>Optional</p>
+          <h1 className={styles.title}>Vote</h1>
+          <p className={styles.sub}>Loading session…</p>
+        </header>
+      </main>
+    );
+  }
 
   return (
     <main className={styles.shell}>

@@ -12,7 +12,7 @@ type Features = {
 };
 
 export default function PayPage() {
-  const { data, error, busy, preview, markPaid } = useLunchSession();
+  const { data, error, busy, loading, preview, markPaid } = useLunchSession();
   const [features, setFeatures] = useState<Features | null>(null);
   const [stripeMsg, setStripeMsg] = useState<string | null>(null);
   const p = data?.participant;
@@ -49,6 +49,21 @@ export default function PayPage() {
         : "Stripe response OK",
     );
     await markPaid();
+  }
+
+  if (loading) {
+    return (
+      <main className={styles.shell}>
+        <Link href="/" className="backLink">
+          ← Today
+        </Link>
+        <header className={styles.brand}>
+          <p className={styles.org}>Your share</p>
+          <h1 className={styles.title}>Pay</h1>
+          <p className={styles.sub}>Loading session…</p>
+        </header>
+      </main>
+    );
   }
 
   return (
