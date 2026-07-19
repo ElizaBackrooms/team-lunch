@@ -1,9 +1,9 @@
 /**
  * API smoke test for Team Lunch (mock dd-cli).
  * Usage: npm run e2e
- * Optional: E2E_BASE=http://localhost:3001 npm run e2e
+ * Optional: E2E_BASE=http://localhost:3000 npm run e2e
  */
-const base = process.env.E2E_BASE ?? "http://localhost:3001";
+const base = process.env.E2E_BASE ?? "http://localhost:3000";
 
 async function j(method, path, body) {
   const res = await fetch(`${base}${path}`, {
@@ -51,7 +51,7 @@ async function main() {
   if (paid.session.status !== "funded") throw new Error("not funded");
   const co = await j("POST", "/api/dd/checkout");
   if (!co.order?.orderId) throw new Error("no order");
-  const tr = await j("GET", `/api/dd/track?orderId=${co.order.orderId}`);
+  const tr = await j("POST", "/api/dd/track", { orderId: co.order.orderId });
   if (!tr.tracking?.status) throw new Error("no tracking");
   console.log("E2E_OK", {
     order: co.order.orderId,

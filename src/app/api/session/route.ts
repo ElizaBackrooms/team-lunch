@@ -58,7 +58,7 @@ const actionSchema = z.discriminatedUnion("action", [
 ]);
 
 export async function GET() {
-  return NextResponse.json(snapshot(getDemo()));
+  return NextResponse.json(readSnapshot(getDemo()));
 }
 
 export async function POST(req: Request) {
@@ -185,11 +185,10 @@ export async function POST(req: Request) {
     }
   }
 
-  return NextResponse.json(snapshot(getDemo()));
+  return NextResponse.json(writeSnapshot(getDemo()));
 }
 
-function snapshot(demo: ReturnType<typeof getDemo>) {
-  persistDemo();
+function readSnapshot(demo: ReturnType<typeof getDemo>) {
   return {
     session: demo.session,
     location: demo.location,
@@ -202,4 +201,9 @@ function snapshot(demo: ReturnType<typeof getDemo>) {
     tracking: demo.tracking,
     ids: demoIds(),
   };
+}
+
+function writeSnapshot(demo: ReturnType<typeof getDemo>) {
+  persistDemo();
+  return readSnapshot(demo);
 }

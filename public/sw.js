@@ -1,5 +1,5 @@
 /* Minimal installability + offline shell for Team Lunch PWA */
-const CACHE = "team-lunch-v1";
+const CACHE = "team-lunch-v2";
 const ASSETS = ["/", "/manifest.webmanifest", "/icon.svg"];
 
 self.addEventListener("install", (event) => {
@@ -19,6 +19,11 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   const req = event.request;
   if (req.method !== "GET") return;
+
+  const url = new URL(req.url);
+  // Never cache API — session/vote state must stay fresh
+  if (url.pathname.startsWith("/api/")) return;
+
   event.respondWith(
     fetch(req)
       .then((res) => {

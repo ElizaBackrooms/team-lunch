@@ -27,7 +27,9 @@ export async function POST(req: Request) {
     ? (parsed.data.tipCents ?? demo.session.tipCents)
     : demo.session.tipCents;
 
-  const participantCount = demo.participant ? 1 : 1;
+  const participantIds = new Set(demo.cart.map((i) => i.participantId));
+  if (demo.participant) participantIds.add(demo.participant.id);
+  const participantCount = Math.max(participantIds.size, 1);
   const preview = await previewSessionFees({
     ddStoreId: winner.ddStoreId,
     items: demo.cart,

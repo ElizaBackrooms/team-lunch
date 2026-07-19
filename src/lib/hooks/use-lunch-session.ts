@@ -271,7 +271,7 @@ export function useLunchSession() {
       }),
     track: () =>
       run(async () => {
-        await json("/api/dd/track");
+        await json("/api/dd/track", { method: "POST", body: JSON.stringify({}) });
         await refresh();
       }),
   };

@@ -68,7 +68,7 @@ export default function JoinPage() {
   const locked = ["locked", "collecting", "funded"].includes(
     data?.session.status ?? "",
   );
-  const winner = data?.candidates.find(
+  const winner = data?.candidates?.find(
     (c) => c.id === data.session.winningCandidateId,
   );
 

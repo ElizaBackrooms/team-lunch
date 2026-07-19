@@ -45,10 +45,9 @@ export default function PayPage() {
     }
     setStripeMsg(
       body.clientSecret
-        ? "PaymentIntent created — wire Stripe.js Elements next (secret ready)."
+        ? "PaymentIntent created — confirm with Stripe Elements before funding. Use Mock pay for demo."
         : "Stripe response OK",
     );
-    await markPaid();
   }
 
   if (loading) {

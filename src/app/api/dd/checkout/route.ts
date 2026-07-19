@@ -19,8 +19,8 @@ export async function POST() {
     return NextResponse.json({ error: "empty_cart" }, { status: 400 });
   }
 
-  // Demo: allow checkout from collecting/funded/locked for UI testing
-  if (!["collecting", "funded", "locked", "ordering"].includes(demo.session.status)) {
+  // Only place a real consolidated order after the pot is funded.
+  if (!["funded", "ordering"].includes(demo.session.status)) {
     return NextResponse.json(
       { error: `cannot_checkout_from_${demo.session.status}` },
       { status: 409 },
